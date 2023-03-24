@@ -1,8 +1,10 @@
-import numpy as np
 from abc import ABC, abstractmethod
-from configuration.configs import Settings
+
+import numpy as np
 from wolframclient.evaluation import SecuredAuthenticationKey, WolframCloudSession
 from wolframclient.language import wlexpr
+
+from app.configuration.configs import Settings
 
 
 class WFConnection(ABC):
@@ -15,7 +17,7 @@ class WFConnection(ABC):
         pass
 
     @abstractmethod
-    def run_script(self):
+    def run_script(self, script: str):
         pass
 
 
@@ -25,9 +27,11 @@ class WFConnector(WFConnection):
         self.session = self.create_session()
 
     def create_session(self):
-        return WolframCloudSession(credentials=SecuredAuthenticationKey(self.settings.COSUMER_KEY,
-                                                                        self.settings.COSUMER_PASSWORD))
+        return WolframCloudSession(credentials=SecuredAuthenticationKey(self.settings.CONSUMER_KEY,
+                                                                        self.settings.CONSUMER_PASSWORD))
 
     def run_script(self, script: str):
+        self.session.start()
         result = self.session.evaluate(wlexpr(script))
         return np.array(result)
+

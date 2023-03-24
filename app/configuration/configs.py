@@ -15,8 +15,8 @@ class ServerSettings(BaseSettings):
 
 
 class WLSettings(BaseSettings):
-    COSUMER_KEY: str = Field(..., env="COSUMER_KEY")
-    COSUMER_PASSWORD: str = Field(..., env="COSUMER_PASSWORD")
+    CONSUMER_KEY: str = Field(..., env="CONSUMER_KEY")
+    CONSUMER_PASSWORD: str = Field(..., env="CONSUMER_PASSWORD")
 
 
 class Settings(CommonSettings, ServerSettings, WLSettings):
