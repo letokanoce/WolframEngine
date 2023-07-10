@@ -34,4 +34,3 @@ class WFConnector(WFConnection):
         self.session.start()
         result = self.session.evaluate(wlexpr(script))
         return np.array(result)
-

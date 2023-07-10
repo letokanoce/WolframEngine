@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from router.wl_cloud import router as WLRouter
+
+from app.router.wl_cloud import router as WLRouter
 
 app = FastAPI(openapi_url="/api/v1/openapi.json")
 
@@ -23,5 +24,6 @@ async def read_root():
 @app.get("/endpoints")
 async def get_all_endpoints():
     return [{"path": route.path, "name": route.name} for route in app.routes]
+
 
 app.include_router(WLRouter)
