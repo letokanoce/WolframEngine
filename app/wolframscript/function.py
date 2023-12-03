@@ -1,8 +1,7 @@
 TRUNC_MULVAR_NORM = """
 truncMultivarNorm[mean_List, cov_List, boundsPair_List] := Module[
 {covariance, dist, truncDist,bounds},
-covariance = Partition[cov,Sqrt[Length[cov]]];
-dist = MultinormalDistribution[mean, covariance];
+dist = MultinormalDistribution[mean, cov];
 bounds = Table[boundsPair,{Length[mean]}];
 truncDist = TruncatedDistribution[bounds, dist];
 While[
@@ -10,6 +9,15 @@ While[
     Total[Abs[randomVariate]] >= 1
   ];
 Return[randomVariate];
+];
+"""
+
+GENERATE_CARTESIAN_PVAL = """
+generateCartesianPval[dim_]:= Module[
+    {polarCoordPval, cartesianCoordPval},
+    polarCoordPval = Flatten[{RandomReal[], RandomReal[{0, \[Pi]/2}, dim - 2], RandomReal[{0, \[Pi]/2}]}];
+    cartesianCoordPval = FromPolarCoordinates[polarCoordPval];
+    Return[cartesianCoordPval];
 ];
 """
 

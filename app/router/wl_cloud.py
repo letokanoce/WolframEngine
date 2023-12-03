@@ -21,11 +21,19 @@ def calculate_mean(mean: list, cov: list, bounds: list):
     return result.tolist()
 
 
+@router.get("/calculate/generated/p_val")
+def calculate_mean(dim: int):
+    script = GENERATE_CARTESIAN_PVAL + "generateCartesianPval[{}]".format(dim)
+    result = wf_connector.run_script(script)
+    wf_connector.session.stop()
+    return result.tolist()
+
+
 @router.post("/calculate/optimized/cov")
 def calculate_optimized_cov(cov_mtx_co: list, cov_mtx_sd_pro: list):
     cov_mtx_elems_wl = export(cov_mtx_co, target_format="wl").decode("utf-8")
     cov_mtx_sd_pro_wl = export(cov_mtx_sd_pro, target_format="wl").decode("utf-8")
-    script = OPTIMIZED_COV_MTX + "optimizedCovMatrix[{},{}]".format(cov_mtx_elems_wl, cov_mtx_sd_pro_wl)
+    script = GENERATE_CARTESIAN_PVAL + "optimizedCovMatrix[{},{}]".format(cov_mtx_elems_wl, cov_mtx_sd_pro_wl)
     result = wf_connector.run_script(script)
     wf_connector.session.stop()
     return result.tolist()
